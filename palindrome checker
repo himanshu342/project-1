@@ -1,0 +1,100 @@
+#include<iostream>
+using namespace std;
+#include<string.h>
+#define n 10
+char insert(char);
+char del1();
+char del2();
+char queue[n];
+int front=-1,rear=-1;
+main()
+{
+	char s[100],temp1,temp2;
+	int l,i,x=0;
+	cout<<"enter string\n";
+	cin>>s;;
+	l=strlen(s);
+	for(i=0;i<l;i++)
+	{
+		insert(s[i]);
+	}
+	for(i=0;i<(l/2);i++)
+	{
+		temp1=del1();
+		temp2=del2();
+		if(temp1!=temp2)
+		{
+			x=1;
+			break;
+		}
+	
+	}
+	if(x!=1)
+	cout<<"yes\n";
+	else
+	cout<<"no\n";
+}
+char insert(char a)
+{
+	if(front==rear+1||(rear==n-1&&front==0))
+	cout<<"overflow\n";
+	if(front==-1&&rear==-1)
+	{
+		front=0;
+		rear=0;
+	}
+	if(front!=0&&rear==n-1)
+	{
+		rear=0;
+	}
+	else
+	{
+		rear=rear+1;
+	}
+	queue[rear]=a;
+}
+char del1()
+{
+	char b;
+	b=queue[front];
+	if(front==0&&rear==0)
+	{
+		front=-1;
+		rear=-1;
+	}
+	if(front==-1&&rear==-1)
+	{
+		cout<<"underflow\n";
+	}
+	if(front==n-1)
+	{
+		front=0;
+	}
+	else{
+	front=front+1;
+}
+	return b;
+}
+char del2()
+{
+	char b;
+	b=queue[rear];
+	if(front==0&&rear==0)
+	{
+		front=-1;
+		rear=-1;
+	}
+	if(front==-1&&rear==-1)
+	{
+		cout<<"underflow\n";
+	}
+	if(rear==0)
+	{
+		rear=n-1;
+	}
+	else
+	{
+	rear=rear-1;
+}
+	return b;
+}
