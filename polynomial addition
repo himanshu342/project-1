@@ -1,0 +1,185 @@
+#include<iostream>
+#include<stdlib.h>
+using namespace std;
+struct node
+{
+  int coeff;
+  int expo;
+  struct node *link;
+};
+struct node *displayheadpol(struct node *);
+struct node *createheadpol(struct node *);
+struct node *addheadpol(struct node *,struct node *,struct node *);
+struct node *addnode(struct node *,int,int);
+int main()
+{
+    struct node *start1,*start2,*p,*r,*start3,*s;
+    p=(struct node*)malloc(sizeof(struct node));
+    r=(struct node*)malloc(sizeof(struct node));
+    s=(struct node*)malloc(sizeof(struct node));
+    p->coeff=0;
+    p->expo=-1;
+    r->coeff=0;
+    r->expo=-1;
+    s->coeff=0;
+    s->expo=-1;
+    start1=p;
+    start2=r;
+    start3=s;
+    int q;
+    do{
+        cout<<endl<<"1.create first polynomial"<<endl;
+        cout<<"2.create second polynomial"<<endl;
+        cout<<"3.add both polynomial"<<endl;
+
+         cout<<"4.Exit"<<endl;
+        cin>>q;
+        switch(q)
+        {
+        case 1:
+           start1=createheadpol(start1);
+           cout<<"first polynomial is\n";
+           start1=displayheadpol(start1);
+            break;
+        case 2:
+          start2=createheadpol(start2);
+          cout<<"second polynomial is\n";
+          start2=displayheadpol(start2);
+            break;
+        case 3:
+            start3=addheadpol(start1,start2,start3);
+            cout<<"result is \n";
+            start3=displayheadpol(start3);
+            break;
+
+
+        }
+
+    }while(q!=4);
+
+
+}
+struct node *createheadpol(struct node *start)
+{
+  struct node *ptr;
+  int c,n;
+  cout<<"enter values and press -1 to terminate\n";
+  cout<<"enter coefficent\n";
+  cin>>c;
+  cout<<"enter exponent\n";
+  cin>>n;
+  while(c!=-1&&n!=-1)
+  {
+  ptr=addnode(start,c,n);
+  cout<<"enter coefficent\n";
+  cin>>c;
+  cout<<"enter exponent\n";
+  cin>>n;
+  }
+  return start;
+}
+struct node *displayheadpol(struct node *start)
+{
+    struct node *p;
+    p=start->link;
+    while(p)
+    {
+        cout<<p->coeff;
+        cout<<"(x)";
+        if(p->link!=NULL)
+        {
+        cout<<"^"<<p->expo<<" +"<<" ";
+        }
+        else
+        {
+            cout<<"^"<<p->expo;
+        }
+        p=p->link;
+    }
+    free(p);
+    return start;
+}
+
+struct node *addheadpol(struct node *start1,struct node *start2,struct node *start3)
+{
+    struct node *p,*q,*r;
+    p=start1->link;
+    q=start2->link;
+    r=start3->link;
+
+    if(start1->link==NULL||start2->link==NULL)
+    {
+        cout<<"both polynomials are not created\n";
+        return start3;
+    }
+    while(p!=NULL&&q!=NULL)
+    {
+        struct node *newnode;
+        newnode=(struct node *)malloc(sizeof(struct node ));
+        if(p->expo==q->expo)
+        {
+           newnode=addnode(start3,p->coeff+q->coeff,p->expo);
+          p=p->link;
+          q=q->link;
+        }
+        else if(p->expo>q->expo)
+        {
+            newnode=addnode(start3,p->coeff,p->expo);
+            p=p->link;
+        }
+        else if(p->expo<q->expo)
+        {
+            newnode=addnode(start3,q->coeff,q->expo);
+            q=q->link;
+        }
+     }
+    if(p!=NULL)
+    {
+      while(p)
+      {
+            struct node *newnode;
+            newnode=addnode(start3,p->coeff,p->expo);
+          p=p->link;
+      }
+    }
+    if(q!=NULL)
+    {
+       while(q)
+       {
+            struct node *newnode;
+           newnode=(struct node *)malloc(sizeof(struct node ));
+            newnode=addnode(start3,q->coeff,q->expo);
+          q=q->link;
+       }
+
+    }
+
+    return start3;
+};
+struct node *addnode(struct node *start,int c,int n)
+{
+  struct node *p;
+  p=(struct node *)malloc(sizeof(struct node));
+  if(start->link==NULL)
+  {
+    start->link=p;
+    p->coeff=c;
+    p->expo=n;
+    p->link=NULL;
+  }
+  else
+  {
+      struct node *q;
+      q=start;
+      while(q->link)
+      {
+          q=q->link;
+      }
+      q->link=p;
+      p->coeff=c;
+      p->expo=n;
+      p->link=NULL;
+  }
+
+  return p;
+};
