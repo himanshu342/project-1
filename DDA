@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+#include<graphics.h>
+#include<math.h>
+using namespace std;
+
+void DDA(int x1,int y1,int x2,int y2)
+{
+	int d1=x2-x1;
+	int d2=y2-y1;
+	
+	int r=abs(d1)>abs(d2) ? abs(d1):abs(d2);
+	
+	float r1=d1/(float)r;
+	float r2=d2/(float)r;
+	
+	float x=x1;
+	float y=y1;
+	
+	int gd=DETECT,gm;
+	
+	initgraph (&gd, &gm,"NULL");
+	
+	for(int i=0;i<=r;i++)
+	{
+		putpixel(x,y,RED);
+		x+=r1;
+		y+=r2;
+		delay(5000);
+	}
+}
+
+main()
+{
+	int x1,y1,x2,y2;
+	
+	cout<<"Enter x1 and y1 : ";
+	cin>>x1>>y1;
+	
+	cout<<"Enter x2 and y2 : ";
+	cin>>x2>>y2;
+	
+	DDA(x1,y1,x2,y2);
+}
