@@ -1,0 +1,67 @@
+#include <bits/stdc++.h> 
+using namespace std; 
+  
+// struct node of linked list 
+struct myNode { 
+    int data; 
+    myNode* right, *down; 
+}; 
+  
+// returns head pointer of linked list 
+// constructed from 2D matrix 
+myNode* construct(int arr[][3], int i, int j,  
+                              int row, int column) 
+{ 
+    // return if i or j is out of bounds 
+    if (i > column - 1 || j > row - 1) 
+        return NULL; 
+  
+    // create a new node for current i and j 
+    // and recursively allocate its down and 
+    // right pointers 
+   myNode* temp = new myNode(); 
+    temp->data = arr[i][j]; 
+    temp->right = construct(arr, i, j + 1, row, n); 
+    temp->down  = construct(arr, i + 1, j, row, column); 
+    return temp; 
+} 
+  
+// utility function for displaying 
+// linked list data 
+void display(myNode* head) 
+{ 
+    // pointer to move right 
+    myNode* Rp; 
+  
+    // pointer to move down 
+    myNode* Dp = head; 
+  
+    // loop till node->down is not NULL 
+    while (Dp) { 
+        Rp = Dp; 
+  
+        // loop till node->right is not NULL 
+        while (Rp) { 
+            cout << Rp->data << " "; 
+            Rp = Rp->right; 
+        } 
+        cout << "\n"; 
+        Dp = Dp->down; 
+    } 
+} 
+  
+// driver program 
+int main() 
+{ 
+    // 2D matrix 
+    int A[][3] = { 
+        { 1, 2, 3 }, 
+        { 4, 5, 6 }, 
+        { 7, 8, 9 } 
+    }; 
+  
+    int row = 3, column = 3; 
+    myNode* head = construct(A, 0, 0, row, column); 
+    display(head); 
+    return 0; 
+} 
